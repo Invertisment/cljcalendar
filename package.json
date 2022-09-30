@@ -1,5 +1,6 @@
 {
   "name": "cljcal",
+  "homepage": "https://mmaciul.lt/cljcalendar/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
