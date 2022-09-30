@@ -2,7 +2,7 @@ name: CI
 on: [push]
 jobs:
   build:
-    name: Deployt to gh pages
+    name: Deploy to gh pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

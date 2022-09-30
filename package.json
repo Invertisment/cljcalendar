@@ -11,11 +11,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.62",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
     "fullcalendar": "^5.11.3",
+    "he": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.15.1",
@@ -43,6 +40,11 @@
     ]
   },
   "devDependencies": {
-    "@types/react-modal": "^3.13.1"
+    "@types/react-modal": "^3.13.1",
+    "@types/he": "^1.1.2",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.62",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6"
   }
 }

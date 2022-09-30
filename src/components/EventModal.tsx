@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
+import { unescape } from 'he';
 
 export type EventInfo = {
   start: string,
@@ -48,22 +49,20 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
       },
     }}
   >
-    <h2>{props.event.title}</h2>
+    <h2>{unescape(props.event.title)}</h2>
     {displayKV("Time", <p>
       <p>Start: {dateFormat.format(new Date(props.event.start))}</p>
       <p>End: {dateFormat.format(new Date(props.event.end))}</p>
     </p>)}
-    <form>
-      {displayKV("URL", <a href={props.event.url} target="_blank">{props.event.url}</a>)}
-      <p className="p-with-newlines">
-        {Object.keys(props.event.extendedProps).map((extraKey: string) => {
-          if (props.event.extendedProps[extraKey] === "" || props.event.extendedProps[extraKey] === null) {
-            return null
-          }
-          return displayKV(extraKey, <p>{props.event.extendedProps[extraKey]}</p>)
-        })}
-      </p>
-      <button onClick={() => setIsOpen(false)}>Close</button>
-    </form>
+    {displayKV("URL", <a href={props.event.url} target="_blank">{props.event.url}</a>)}
+    <p className="p-with-newlines">
+      {Object.keys(props.event.extendedProps).map((extraKey: string) => {
+        if (props.event.extendedProps[extraKey] === "" || props.event.extendedProps[extraKey] === null) {
+          return null
+        }
+        return displayKV(extraKey, <p>{unescape(props.event.extendedProps[extraKey])}</p>)
+      })}
+    </p>
+    <button onClick={() => setIsOpen(false)} style={{ cursor: "pointer" }}>Close</button>
   </Modal>
 }

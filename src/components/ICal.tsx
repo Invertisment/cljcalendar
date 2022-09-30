@@ -31,6 +31,7 @@ export default function(props: { src: { url: string, format: string } }) {
         event={previewedEvent}
         onDismiss={() => setPreviewedEvent(undefined)} />}
     <FullCalendar
+      firstDay={1} // monday
       ref={calendarRef}
       plugins={[dayGridPlugin, listPlugin, iCalendarPlugin]}
       events={props.src}
