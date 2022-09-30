@@ -22,6 +22,8 @@ Docs & License: https://fullcalendar.io/
 (c) 2022 Adam Shaw
 */
 
+/*! https://mths.be/he v1.2.0 by @mathias | MIT license */
+
 /**
  * @license React
  * react-dom.production.min.js
