@@ -55,7 +55,7 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
     </p>)}
     <form>
       {displayKV("URL", <a href={props.event.url} target="_blank">{props.event.url}</a>)}
-      <p>
+      <p className="p-with-newlines">
         {Object.keys(props.event.extendedProps).map((extraKey: string) => {
           if (props.event.extendedProps[extraKey] === "" || props.event.extendedProps[extraKey] === null) {
             return null
