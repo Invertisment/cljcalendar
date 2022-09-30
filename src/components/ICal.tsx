@@ -15,6 +15,7 @@ export default function(props: { src: { url: string, format: string } }) {
   const [previewedEvent, setPreviewedEvent] = useState<EventInfo | undefined>(undefined)
   const [showAsStack, setShowAsStack] = useState(false)
   const currentView = showAsStack ? "mmListMonth" : "mmDayGridMonth"
+  const currentViewToggleTitle = showAsStack ? "Toggle grid" : "Toggle stack"
   const dimensions = useWindowDimensions()
   const minHeight = Math.max(dimensions.height, 700)
   useEffect(() => {
@@ -51,8 +52,8 @@ export default function(props: { src: { url: string, format: string } }) {
       }}
       customButtons={{
         "mmToggleStackButton": {
-          text: "Toggle stack",
-          hint: "Toggle stack",
+          text: currentViewToggleTitle,
+          hint: "Toggle between monthly stacked view and whole-month view",
           click: (_ev: MouseEvent, _element: HTMLElement) => {
             setShowAsStack(!showAsStack)
           },
@@ -60,6 +61,7 @@ export default function(props: { src: { url: string, format: string } }) {
       }}
       aspectRatio={undefined}
       height={minHeight}
+      buttonText={{ today: "Today" }}
       viewClassNames={"z-index-zero"}
       eventClick={(arg: EventClickArg) => {
         arg.jsEvent.preventDefault()

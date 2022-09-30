@@ -39,13 +39,13 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
         width: "auto",
       },
       content: {
-        maxWidth: 500,
+        maxWidth: 600,
         height: "auto",
         margin: "auto",
-        top: "5%",
-        left: "5%",
-        right: "5%",
-        bottom: "5%",
+        top: "1%",
+        left: "1%",
+        right: "1%",
+        bottom: "1%",
       },
     }}
   >
@@ -63,6 +63,8 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
         return displayKV(extraKey, <p>{unescape(props.event.extendedProps[extraKey])}</p>)
       })}
     </p>
-    <button onClick={() => setIsOpen(false)} style={{ cursor: "pointer" }}>Close</button>
+    <button
+      onClick={() => setIsOpen(false)}
+      style={{ cursor: "pointer", padding: 10, margin: "auto", display: "block" }}>Close</button>
   </Modal>
 }
