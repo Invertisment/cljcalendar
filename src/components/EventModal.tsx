@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Modal from 'react-modal';
 import { unescape } from 'he';
 
@@ -18,10 +18,10 @@ function capitalize(txt: string) {
 }
 
 function displayKV(key: string, value: any) {
-  return <>
+  return <Fragment key={key}>
     <h3>{capitalize(key)}</h3>
     {value}
-  </>
+  </Fragment>
 }
 
 const dateFormat = new Intl.DateTimeFormat([], { dateStyle: 'medium', timeStyle: 'short' })
@@ -50,19 +50,19 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
     }}
   >
     <h2>{unescape(props.event.title)}</h2>
-    {displayKV("Time", <p>
+    {displayKV("Time", <section>
       <p>Start: {dateFormat.format(new Date(props.event.start))}</p>
       <p>End: {dateFormat.format(new Date(props.event.end))}</p>
-    </p>)}
+    </section>)}
     {displayKV("URL", <a href={props.event.url} target="_blank">{props.event.url}</a>)}
-    <p className="p-with-newlines">
+    <section className="p-with-newlines">
       {Object.keys(props.event.extendedProps).map((extraKey: string) => {
         if (props.event.extendedProps[extraKey] === "" || props.event.extendedProps[extraKey] === null) {
           return null
         }
         return displayKV(extraKey, <p>{unescape(props.event.extendedProps[extraKey])}</p>)
       })}
-    </p>
+    </section>
     <button
       onClick={() => setIsOpen(false)}
       style={{ cursor: "pointer", padding: 10, margin: "auto", display: "block" }}>Close</button>
