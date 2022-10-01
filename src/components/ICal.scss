@@ -3,11 +3,11 @@
   z-index: 0;
 }
 
-.p-with-newlines {
-  white-space: pre-wrap
+.color-red {
+  color: red;
+  background: red;
 }
 
-.color-black {
-  color: "red";
-  background: "red";
+.event-name-size {
+  font-size: calc(3px + 2vmin);
 }

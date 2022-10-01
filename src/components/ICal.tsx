@@ -6,6 +6,7 @@ import './ICal.scss';
 import listPlugin from '@fullcalendar/list';
 import { useEffect, useRef, useState } from 'react';
 import EventModal, { EventInfo } from './EventModal';
+import { timeStyle } from '../constants';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar
@@ -14,14 +15,21 @@ import EventModal, { EventInfo } from './EventModal';
 export default function(props: { src: { url: string, format: string } }) {
   const [previewedEvent, setPreviewedEvent] = useState<EventInfo | undefined>(undefined)
   const [showAsStack, setShowAsStack] = useState(false)
-  const currentView = showAsStack ? "mmListMonth" : "mmDayGridMonth"
-  const currentViewToggleTitle = showAsStack ? "Toggle grid" : "Toggle stack"
+  const currentView = showAsStack
+    ? {
+      view: "mmListMonth",
+      toggleButtonText: "To grid"
+    }
+    : {
+      view: "mmDayGridMonth",
+      toggleButtonText: "To stack"
+    }
   const dimensions = useWindowDimensions()
   const minHeight = Math.max(dimensions.height, 700)
   useEffect(() => {
     if (calendarRef !== undefined) {
       // https://github.com/fullcalendar/fullcalendar/issues/4684#issuecomment-620787260
-      calendarRef.current.getApi().changeView(currentView)
+      calendarRef.current.getApi().changeView(currentView.view)
     }
   }, [currentView])
   // https://stackoverflow.com/a/65039223
@@ -36,7 +44,7 @@ export default function(props: { src: { url: string, format: string } }) {
       ref={calendarRef}
       plugins={[dayGridPlugin, listPlugin, iCalendarPlugin]}
       events={props.src}
-      initialView={currentView}
+      initialView={currentView.view}
       views={{
         mmDayGridMonth: {
           type: "dayGridMonth",
@@ -52,7 +60,7 @@ export default function(props: { src: { url: string, format: string } }) {
       }}
       customButtons={{
         "mmToggleStackButton": {
-          text: currentViewToggleTitle,
+          text: currentView.toggleButtonText,
           hint: "Toggle between monthly stacked view and whole-month view",
           click: (_ev: MouseEvent, _element: HTMLElement) => {
             setShowAsStack(!showAsStack)
@@ -62,6 +70,8 @@ export default function(props: { src: { url: string, format: string } }) {
       aspectRatio={undefined}
       height={minHeight}
       buttonText={{ today: "Today" }}
+      eventTimeFormat={timeStyle}
+      eventClassNames="event-name-size"
       viewClassNames={"z-index-zero"}
       eventClick={(arg: EventClickArg) => {
         arg.jsEvent.preventDefault()

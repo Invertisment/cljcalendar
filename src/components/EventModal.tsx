@@ -1,6 +1,8 @@
 import { Fragment, useState } from 'react';
 import Modal from 'react-modal';
 import { unescape } from 'he';
+import { appRootHtmlId, dateTimeStyle } from '../constants';
+import './EventModal.scss';
 
 export type EventInfo = {
   start: string,
@@ -11,7 +13,7 @@ export type EventInfo = {
 }
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement('body');
+Modal.setAppElement(document.getElementById(appRootHtmlId) as HTMLElement);
 
 function capitalize(txt: string) {
   return txt.charAt(0).toUpperCase() + txt.slice(1)
@@ -24,7 +26,7 @@ function displayKV(key: string, value: any) {
   </Fragment>
 }
 
-const dateFormat = new Intl.DateTimeFormat([], { dateStyle: 'medium', timeStyle: 'short' })
+export const dateFormat = new Intl.DateTimeFormat([], dateTimeStyle)
 
 export default function(props: { event: EventInfo, onDismiss: () => void }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -51,8 +53,7 @@ export default function(props: { event: EventInfo, onDismiss: () => void }) {
   >
     <h2>{unescape(props.event.title)}</h2>
     {displayKV("Time", <section>
-      <p>Start: {dateFormat.format(new Date(props.event.start))}</p>
-      <p>End: {dateFormat.format(new Date(props.event.end))}</p>
+      <p>{dateFormat.formatRange(new Date(props.event.start), new Date(props.event.end))}</p>
     </section>)}
     {displayKV("URL", <a href={props.event.url} target="_blank">{props.event.url}</a>)}
     <section className="p-with-newlines">
