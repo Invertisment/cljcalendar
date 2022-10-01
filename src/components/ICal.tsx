@@ -1,12 +1,12 @@
 import FullCalendar, { EventClickArg } from '@fullcalendar/react';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import dayGridPlugin from '@fullcalendar/daygrid';
-import useWindowDimensions from '../hooks/useDimensions';
 import './ICal.scss';
 import listPlugin from '@fullcalendar/list';
 import { useEffect, useRef, useState } from 'react';
 import EventModal, { EventInfo } from './EventModal';
 import { timeStyle } from '../constants';
+import useWindowDimensions, { useGrid } from '../hooks/useDimensions';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar
@@ -24,8 +24,6 @@ export default function(props: { src: { url: string, format: string } }) {
       view: "mmDayGridMonth",
       toggleButtonText: "To stack"
     }
-  const dimensions = useWindowDimensions()
-  const minHeight = Math.max(dimensions.height, 700)
   useEffect(() => {
     if (calendarRef !== undefined) {
       // https://github.com/fullcalendar/fullcalendar/issues/4684#issuecomment-620787260
@@ -34,6 +32,7 @@ export default function(props: { src: { url: string, format: string } }) {
   }, [currentView])
   // https://stackoverflow.com/a/65039223
   const calendarRef = useRef() as React.MutableRefObject<FullCalendar>
+  const grid = useGrid()
   return <div style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden" }}>
     {previewedEvent &&
       <EventModal
@@ -56,8 +55,15 @@ export default function(props: { src: { url: string, format: string } }) {
         },
       }}
       headerToolbar={{
-        center: "mmToggleStackButton"
+        left: "title",
+        center: "mmToggleStackButton",
+        right: "today prev,next"
       }}
+      titleFormat={
+        grid.atLeastMedium
+          ? { year: 'numeric', month: 'long' }
+          : { month: 'numeric', year: "numeric" }
+      }
       customButtons={{
         "mmToggleStackButton": {
           text: currentView.toggleButtonText,

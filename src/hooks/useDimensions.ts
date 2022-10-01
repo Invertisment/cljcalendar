@@ -23,3 +23,11 @@ export default function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+export function useGrid() {
+  const dimensions = useWindowDimensions()
+  return {
+    atLeastSmall: dimensions.width > 600,
+    atLeastMedium: dimensions.width > 900,
+  }
+}
