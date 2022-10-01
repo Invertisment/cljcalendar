@@ -68,7 +68,7 @@ export default function(props: { src: { url: string, format: string } }) {
         }
       }}
       aspectRatio={undefined}
-      height={minHeight}
+      height="auto"
       buttonText={{ today: "Today" }}
       eventTimeFormat={timeStyle}
       eventClassNames="event-name-size"
