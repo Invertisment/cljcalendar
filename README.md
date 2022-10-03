@@ -3,6 +3,8 @@
 This is a web-only preview of the calendar located [here](https://www.clojurians-zulip.org/feeds/events.ics).
 The calendar can also be shown by mobile phone calendar.
 
+[Open the calendar](https://invertisment.github.io/cljcalendar)
+
 ## Adding new events
 To add new events visit
 [Clojure events feed README](https://clojurians.zulipchat.com/#narrow/stream/262224-events/topic/README)
