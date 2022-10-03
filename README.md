@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Front-end for [Clojure events calendar feed](https://clojureverse.org/t/clojure-events-calendar-feed/6781/4)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a web-only preview of the calendar located [here](https://www.clojurians-zulip.org/feeds/events.ics).
+The calendar can also be shown by mobile phone calendar.
 
-## Available Scripts
+## Adding new events
+To add new events visit
+[Clojure events feed README](https://clojurians.zulipchat.com/#narrow/stream/262224-events/topic/README)
+and
+[Announce an Event](https://gitlab.com/clojurians-zulip/feeds/-/tree/master#announce-an-event).
 
-In the project directory, you can run:
+## This is for Clojure but why react
 
-### `npm start`
+It's based on React and not ClojureScript.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Typescript was fitting the problem better than re-frame.
+I needed a pre-built calendar component and other than that there is no complex state.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Running locally
 
-### `npm test`
+Run on port 3000: `yarn start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run tests (there are none): `yarn test`
 
-### `npm run build`
+Production build: `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Authors
+Web UI: Martynas Maciulevičius
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Heavy lifting (scraping, aggregation into ical): Gert Goet
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
+GPLv3
