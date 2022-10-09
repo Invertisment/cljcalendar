@@ -6,7 +6,7 @@ import listPlugin from '@fullcalendar/list';
 import { useEffect, useRef, useState } from 'react';
 import EventModal, { EventInfo } from './EventModal';
 import { timeStyle } from '../constants';
-import useWindowDimensions, { useGrid } from '../hooks/useDimensions';
+import { useGrid } from '../hooks/useDimensions';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar

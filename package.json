@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@fullcalendar/daygrid": "^5.11.3",
     "@fullcalendar/icalendar": "^5.11.3",
     "@fullcalendar/list": "^5.11.3",
@@ -40,11 +43,11 @@
     ]
   },
   "devDependencies": {
-    "@types/react-modal": "^3.13.1",
     "@types/he": "^1.1.2",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.62",
     "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6"
+    "@types/react-dom": "^18.0.6",
+    "@types/react-modal": "^3.13.1"
   }
 }
