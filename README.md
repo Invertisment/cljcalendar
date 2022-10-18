@@ -32,4 +32,4 @@ Web UI: Martynas Maciulevičius
 Heavy lifting (scraping, aggregation into ical): Gert Goet
 
 ## License
-GPLv3
+AGPLv3
