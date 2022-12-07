@@ -7,14 +7,16 @@ import { useEffect, useRef, useState } from 'react';
 import EventModal, { EventInfo } from './EventModal';
 import { timeStyle } from '../constants';
 import { useGrid } from '../hooks/useDimensions';
+import { useUrlState } from '../hooks/useUrlState';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar
 // https://fullcalendar.io/docs/react
 
 export default function(props: { src: { url: string, format: string } }) {
+  const url = useUrlState()
   const [previewedEvent, setPreviewedEvent] = useState<EventInfo | undefined>(undefined)
-  const [showAsStack, setShowAsStack] = useState(false)
+  const [showAsStack, setShowAsStack] = useState(url.state.stack)
   const currentView = showAsStack
     ? {
       view: "mmListMonth",
@@ -24,6 +26,7 @@ export default function(props: { src: { url: string, format: string } }) {
       view: "mmDayGridMonth",
       toggleButtonText: "To stack"
     }
+
   useEffect(() => {
     if (calendarRef !== undefined) {
       // https://github.com/fullcalendar/fullcalendar/issues/4684#issuecomment-620787260
@@ -37,7 +40,9 @@ export default function(props: { src: { url: string, format: string } }) {
     {previewedEvent &&
       <EventModal
         event={previewedEvent}
-        onDismiss={() => setPreviewedEvent(undefined)} />}
+        onDismiss={() => {
+          setPreviewedEvent(undefined)
+        }} />}
     <FullCalendar
       firstDay={1} // monday
       ref={calendarRef}
@@ -70,6 +75,7 @@ export default function(props: { src: { url: string, format: string } }) {
           hint: "Toggle between monthly stacked view and whole-month view",
           click: (_ev: MouseEvent, _element: HTMLElement) => {
             setShowAsStack(!showAsStack)
+            url.replaceHistory({ stack: !showAsStack })
           },
         }
       }}
