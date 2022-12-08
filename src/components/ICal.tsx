@@ -66,7 +66,7 @@ export default function(props: { src: { url: string, format: string } }) {
     }
   }, [currentView])
   const grid = useGrid()
-  return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden" }}>
+  return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden", flexGrow: 1 }}>
     {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen, setAboutModalOpen]} />}
     {previewedEvent &&
       <EventModal
