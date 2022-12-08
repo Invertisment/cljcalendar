@@ -1,4 +1,4 @@
-import FullCalendar, { CalendarApi, EventClickArg } from '@fullcalendar/react';
+import FullCalendar, { EventClickArg } from '@fullcalendar/react';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './ICal.scss';
@@ -93,7 +93,9 @@ export default function(props: { src: { url: string, format: string } }) {
       headerToolbar={{
         left: "title",
         //center: "",
-        right: "mmInfoButton mmToggleStackButton,today prev,next"
+        right: grid.atLeastVerySmall
+          ? "mmInfoButton mmToggleStackButton,today prev,next"
+          : "mmInfoButton mmToggleStackButton,today"
       }}
       titleFormat={
         grid.atLeastMedium

@@ -27,6 +27,7 @@ export default function useWindowDimensions() {
 export function useGrid() {
   const dimensions = useWindowDimensions()
   return {
+    atLeastVerySmall: dimensions.width > 400,
     atLeastSmall: dimensions.width > 600,
     atLeastMedium: dimensions.width > 900,
     atLeastLarge: dimensions.width > 1200,
