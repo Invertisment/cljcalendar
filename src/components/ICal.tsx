@@ -8,23 +8,33 @@ import EventModal, { EventInfo } from './EventModal';
 import { timeStyle } from '../constants';
 import { useGrid } from '../hooks/useDimensions';
 import { useUrlState } from '../hooks/useUrlState';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDay, faInfoCircle, faListDots, faTableCells, IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import ModalAbout from './ModalAbout';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar
 // https://fullcalendar.io/docs/react
 
+function getIcon(definition: IconDefinition): string {
+  return (((<div>{<FontAwesomeIcon icon={definition} size="1x" />}</div>) as unknown) as string)
+}
+
 export default function(props: { src: { url: string, format: string } }) {
   const url = useUrlState()
   const [previewedEvent, setPreviewedEvent] = useState<EventInfo | undefined>(undefined)
   const [showAsStack, setShowAsStack] = useState(url.state.stack)
+  const [aboutModalOpen, setAboutModalOpen] = useState(false)
   const currentView = showAsStack
     ? {
       view: "mmListMonth",
-      toggleButtonText: "To grid"
+      toggleButtonText: "To grid",
+      icon: faTableCells
     }
     : {
       view: "mmDayGridMonth",
-      toggleButtonText: "To stack"
+      toggleButtonText: "To stack",
+      icon: faListDots
     }
 
   useEffect(() => {
@@ -37,6 +47,7 @@ export default function(props: { src: { url: string, format: string } }) {
   const calendarRef = useRef() as React.MutableRefObject<FullCalendar>
   const grid = useGrid()
   return <div style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden" }}>
+    {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen, setAboutModalOpen]} />}
     {previewedEvent &&
       <EventModal
         event={previewedEvent}
@@ -61,8 +72,8 @@ export default function(props: { src: { url: string, format: string } }) {
       }}
       headerToolbar={{
         left: "title",
-        center: "mmToggleStackButton",
-        right: "today prev,next"
+        //center: "",
+        right: "mmInfoButton mmToggleStackButton,today prev,next"
       }}
       titleFormat={
         grid.atLeastMedium
@@ -70,8 +81,17 @@ export default function(props: { src: { url: string, format: string } }) {
           : { month: 'numeric', year: "numeric" }
       }
       customButtons={{
+        "mmInfoButton": {
+          text: grid.atLeastLarge
+            ? "About"
+            : getIcon(faInfoCircle),
+          hint: "View information about the creators and addition of events",
+          click: (_ev: MouseEvent, _element: HTMLElement) => setAboutModalOpen(!aboutModalOpen),
+        },
         "mmToggleStackButton": {
-          text: currentView.toggleButtonText,
+          text: grid.atLeastLarge
+            ? currentView.toggleButtonText
+            : getIcon(currentView.icon),
           hint: "Toggle between monthly stacked view and whole-month view",
           click: (_ev: MouseEvent, _element: HTMLElement) => {
             setShowAsStack(!showAsStack)
@@ -81,7 +101,11 @@ export default function(props: { src: { url: string, format: string } }) {
       }}
       aspectRatio={undefined}
       height="auto"
-      buttonText={{ today: "Today" }}
+      buttonText={{
+        today: grid.atLeastLarge
+          ? "Today"
+          : getIcon(faCalendarDay)
+      }}
       eventTimeFormat={timeStyle}
       eventClassNames="event-name-size"
       viewClassNames={"z-index-zero"}

@@ -29,5 +29,6 @@ export function useGrid() {
   return {
     atLeastSmall: dimensions.width > 600,
     atLeastMedium: dimensions.width > 900,
+    atLeastLarge: dimensions.width > 1200,
   }
 }

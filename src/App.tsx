@@ -1,5 +1,4 @@
 import './App.css';
-import Footer from './components/Footer';
 import ICal from './components/ICal';
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
         url: 'https://www.clojurians-zulip.org/feeds/events.ics',
         format: 'ics'
       }} />
-      <Footer />
     </div>
   );
 }
