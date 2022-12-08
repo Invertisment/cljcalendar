@@ -26,10 +26,15 @@ export default function useWindowDimensions() {
 
 export function useGrid() {
   const dimensions = useWindowDimensions()
+  const vmin = Math.min(dimensions.width, dimensions.height)
   return {
     atLeastVerySmall: dimensions.width > 400,
     atLeastSmall: dimensions.width > 600,
     atLeastMedium: dimensions.width > 900,
     atLeastLarge: dimensions.width > 1200,
+    vminAtLeastVerySmall: vmin > 400,
+    vminAtLeastSmall: vmin > 600,
+    vminAtLeastMedium: vmin > 900,
+    vminAtLeastLarge: vmin > 1200,
   }
 }

@@ -93,27 +93,23 @@ export default function(props: { src: { url: string, format: string } }) {
       headerToolbar={{
         left: "title",
         //center: "",
-        right: grid.atLeastVerySmall
+        right: grid.vminAtLeastMedium
           ? "mmInfoButton mmToggleStackButton,today prev,next"
           : "mmInfoButton mmToggleStackButton,today"
       }}
       titleFormat={
-        grid.atLeastMedium
+        grid.vminAtLeastVerySmall
           ? { year: 'numeric', month: 'long' }
           : { month: 'numeric', year: "numeric" }
       }
       customButtons={{
         "mmInfoButton": {
-          text: grid.atLeastLarge
-            ? "About"
-            : getIcon(faInfoCircle),
+          text: getIcon(faInfoCircle),
           hint: "View information about the creators and addition of events",
           click: (_ev: MouseEvent, _element: HTMLElement) => setAboutModalOpen(!aboutModalOpen),
         },
         "mmToggleStackButton": {
-          text: grid.atLeastLarge
-            ? currentView.toggleButtonText
-            : getIcon(currentView.icon),
+          text: getIcon(currentView.icon),
           hint: "Toggle between monthly stacked view and whole-month view",
           click: (_ev: MouseEvent, _element: HTMLElement) => {
             setShowAsStack(!showAsStack)
@@ -124,7 +120,7 @@ export default function(props: { src: { url: string, format: string } }) {
       aspectRatio={undefined}
       height="auto"
       buttonText={{
-        today: grid.atLeastLarge
+        today: grid.vminAtLeastLarge
           ? "Today"
           : getIcon(faCalendarDay)
       }}
