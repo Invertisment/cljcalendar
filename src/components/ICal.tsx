@@ -1,4 +1,4 @@
-import FullCalendar, { EventClickArg } from '@fullcalendar/react';
+import FullCalendar, { CalendarApi, EventClickArg } from '@fullcalendar/react';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './ICal.scss';
@@ -11,6 +11,7 @@ import { useUrlState } from '../hooks/useUrlState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDay, faInfoCircle, faListDots, faTableCells, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import ModalAbout from './ModalAbout';
+import { SwipeableProps, useSwipeable } from 'react-swipeable';
 
 // https://fullcalendar.io/docs/typescript
 // https://fullcalendar.io/docs/icalendar
@@ -18,6 +19,22 @@ import ModalAbout from './ModalAbout';
 
 function getIcon(definition: IconDefinition): string {
   return (((<div>{<FontAwesomeIcon icon={definition} size="1x" />}</div>) as unknown) as string)
+}
+
+function mkSwipeConfig(calendarRef: React.MutableRefObject<FullCalendar>): SwipeableProps {
+  return {
+    onSwipedLeft: (_e) => calendarRef.current.getApi().next(),
+    onSwipedRight: (_e) => calendarRef.current.getApi().prev(),
+    ...{
+      delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
+      preventScrollOnSwipe: false,           // prevents scroll during swipe (*See Details*)
+      trackTouch: true,                      // track touch input
+      trackMouse: false,                     // track mouse input
+      rotationAngle: 0,                      // set a rotation angle
+      swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
+      touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
+    },
+  }
 }
 
 export default function(props: { src: { url: string, format: string } }) {
@@ -37,16 +54,19 @@ export default function(props: { src: { url: string, format: string } }) {
       icon: faListDots
     }
 
+  // https://stackoverflow.com/a/65039223
+  const calendarRef = useRef() as React.MutableRefObject<FullCalendar>
+
+  const handlers = useSwipeable(mkSwipeConfig(calendarRef));
+
   useEffect(() => {
     if (calendarRef !== undefined) {
       // https://github.com/fullcalendar/fullcalendar/issues/4684#issuecomment-620787260
       calendarRef.current.getApi().changeView(currentView.view)
     }
   }, [currentView])
-  // https://stackoverflow.com/a/65039223
-  const calendarRef = useRef() as React.MutableRefObject<FullCalendar>
   const grid = useGrid()
-  return <div style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden" }}>
+  return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden" }}>
     {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen, setAboutModalOpen]} />}
     {previewedEvent &&
       <EventModal
