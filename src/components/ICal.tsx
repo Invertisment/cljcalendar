@@ -18,8 +18,15 @@ import useHashRouteToggle from '../hooks/useHashRouteToggle';
 // https://fullcalendar.io/docs/icalendar
 // https://fullcalendar.io/docs/react
 
-function getIcon(definition: IconDefinition): string {
-  return (((<div>{<FontAwesomeIcon icon={definition} size="1x" />}</div>) as unknown) as string)
+function getIcon(definition: IconDefinition, text?: string): string {
+  if (text) {
+    return ((<div>{<FontAwesomeIcon icon={definition} size="1x" />} {text}</div>) as unknown) as string
+  }
+  return ((<div>{<FontAwesomeIcon icon={definition} size="1x" />}</div>) as unknown) as string
+}
+
+function getResponsiveIcon(displayLarge: boolean, definition: IconDefinition, text: string): string {
+  return (((getIcon(definition, displayLarge ? text : undefined)) as unknown) as string)
 }
 
 function mkSwipeConfig(calendarRef: React.MutableRefObject<FullCalendar>): SwipeableProps {
@@ -46,12 +53,12 @@ export default function(props: { src: { url: string, format: string } }) {
   const currentView = showAsStack
     ? {
       view: "mmListMonth",
-      toggleButtonText: "To grid",
+      toggleButtonText: "Grid",
       icon: faTableCells
     }
     : {
       view: "mmDayGridMonth",
-      toggleButtonText: "To stack",
+      toggleButtonText: "Stack",
       icon: faListDots
     }
 
@@ -67,7 +74,7 @@ export default function(props: { src: { url: string, format: string } }) {
     }
   }, [currentView])
   const grid = useGrid()
-  return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden", flexGrow: 1 }}>
+  return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden", flexGrow: 1, margin: "3px" }}>
     <>
       {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen, setAboutModalOpen]} />}
       {previewedEvent &&
@@ -95,23 +102,23 @@ export default function(props: { src: { url: string, format: string } }) {
         headerToolbar={{
           left: "title",
           //center: "",
-          right: grid.vminAtLeastMedium
+          right: grid.atLeastSmall
             ? "mmInfoButton mmToggleStackButton,today prev,next"
             : "mmInfoButton mmToggleStackButton,today"
         }}
         titleFormat={
-          grid.vminAtLeastVerySmall
+          grid.whRatioAtLeast1W
             ? { year: 'numeric', month: 'long' }
             : { month: 'numeric', year: "numeric" }
         }
         customButtons={{
           "mmInfoButton": {
-            text: getIcon(faInfoCircle),
+            text: getResponsiveIcon(grid.whRatioAtLeast5W, faInfoCircle, "About"),
             hint: "View information about the creators and addition of events",
             click: (_ev: MouseEvent, _element: HTMLElement) => setAboutModalOpen(!aboutModalOpen),
           },
           "mmToggleStackButton": {
-            text: getIcon(currentView.icon),
+            text: getResponsiveIcon(grid.whRatioAtLeast3W, currentView.icon, currentView.toggleButtonText),
             hint: "Toggle between monthly stacked view and whole-month view",
             click: (_ev: MouseEvent, _element: HTMLElement) => {
               setShowAsStack(!showAsStack)
@@ -122,9 +129,7 @@ export default function(props: { src: { url: string, format: string } }) {
         aspectRatio={undefined}
         height="auto"
         buttonText={{
-          today: grid.vminAtLeastLarge
-            ? "Today"
-            : getIcon(faCalendarDay)
+          today: getResponsiveIcon(grid.whRatioAtLeast3W, faCalendarDay, "Today")
         }}
         eventTimeFormat={timeStyle}
         eventClassNames="event-name-size"
