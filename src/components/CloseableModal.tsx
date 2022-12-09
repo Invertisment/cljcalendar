@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import Modal from 'react-modal';
 import { appRootHtmlId } from '../constants';
 import './CloseableModal.scss';
@@ -48,6 +48,6 @@ export default function(props: {
     {props.children}
     <button
       onClick={() => setIsOpen(false)}
-      style={{ padding: 10, margin: "auto", display: "block" }}>Close</button>
+      style={{ padding: 10, margin: "auto", display: "block", border: "none", borderRadius: "0.25em" }}>Close</button>
   </Modal>
 }

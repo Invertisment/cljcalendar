@@ -34,17 +34,15 @@ export default function(props: { event?: EventInfo, onDismiss: () => void }) {
     visibilityCtrl={[event !== undefined, props.onDismiss]}
     title={unescape(event.title)}
   >
-    {displayKV("Time", <section>
+    {displayKV("Time",
       <p>{dateFormat.formatRange(new Date(event.start), new Date(event.end))}</p>
-    </section>)}
+    )}
     {displayKV("URL", <a href={event.url} target="_blank">{event.url}</a>)}
-    <section className="p-with-newlines">
-      {Object.keys(event.extendedProps).map((extraKey: string) => {
-        if (event.extendedProps[extraKey] === "" || event.extendedProps[extraKey] === null) {
-          return null
-        }
-        return displayKV(extraKey, <p>{unescape(event.extendedProps[extraKey])}</p>)
-      })}
-    </section>
-  </CloseableModal>
+    {Object.keys(event.extendedProps).map((extraKey: string) => {
+      if (event.extendedProps[extraKey] === "" || event.extendedProps[extraKey] === null) {
+        return null
+      }
+      return displayKV(extraKey, <p className="p-with-newlines" > {unescape(event.extendedProps[extraKey])}</p>)
+    })}
+  </CloseableModal >
 }
