@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
 import Modal from 'react-modal';
 import { appRootHtmlId } from '../constants';
 import './CloseableModal.scss';
@@ -10,7 +10,8 @@ Modal.setAppElement(document.getElementById(appRootHtmlId) as HTMLElement);
 
 export default function(props: {
   title: string,
-  children: ReactNode, onDismiss?: () => void,
+  children: ReactNode,
+  onDismiss?: () => void,
   visibilityCtrl: [boolean, Dispatch<SetStateAction<boolean>>]
 }) {
   const [isOpen, setIsOpen] = props.visibilityCtrl
