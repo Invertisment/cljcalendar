@@ -40,9 +40,9 @@ function mkSwipeConfig(calendarRef: React.MutableRefObject<FullCalendar>): Swipe
 
 export default function(props: { src: { url: string, format: string } }) {
   const url = useUrlState()
-  const [previewedEvent, setPreviewedEvent] = useHashRouteToggle<EventInfo>("event")
+  const [previewedEvent, setPreviewedEvent] = useHashRouteToggle<EventInfo | undefined>("event", (): EventInfo | undefined => undefined, undefined)
   const [showAsStack, setShowAsStack] = useState(url.state.stack)
-  const [aboutModalOpen, setAboutModalOpen] = useHashRouteToggle("about")
+  const [aboutModalOpen, setAboutModalOpen] = useHashRouteToggle<boolean>("about", (bool) => bool, false)
   const currentView = showAsStack
     ? {
       view: "mmListMonth",
@@ -69,7 +69,7 @@ export default function(props: { src: { url: string, format: string } }) {
   const grid = useGrid()
   return <div {...handlers} style={{ width: "100%", maxWidth: "100%", height: "100%", overflow: "hidden", flexGrow: 1 }}>
     <>
-      {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen as boolean, setAboutModalOpen]} />}
+      {aboutModalOpen && <ModalAbout visibilityCtrl={[aboutModalOpen, setAboutModalOpen]} />}
       {previewedEvent &&
         <EventModal
           event={previewedEvent}

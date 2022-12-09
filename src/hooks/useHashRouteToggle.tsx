@@ -8,8 +8,10 @@ function urlMatches(modalId: string) {
 // Source: https://stackoverflow.com/a/60879586
 export default function useHashRouteToggle<T>(
   modalId: string,
-): [T | undefined, Dispatch<SetStateAction<T | undefined>>] {
-  const [isOpen, setOpen] = useState<T | undefined>(undefined);
+  convertHistoryState: (visible: boolean) => T,
+  defaultValue: T
+): [T, Dispatch<SetStateAction<T>>] {
+  const [isOpen, setOpen] = useState<T>(defaultValue);
 
   useEffect(() => {
     const currentHref = window.location.href
@@ -18,15 +20,18 @@ export default function useHashRouteToggle<T>(
       return
     }
     if (isOpen) {
-      history.pushState({}, '', currentHref + "#" + modalId)
+      history.pushState({ prevUrl: currentHref }, '', currentHref + "#" + modalId)
     } else {
-      history.back()
+      // https://stackoverflow.com/a/56184390
+      if (history.state?.prevUrl) {
+        history.back()
+      }
     }
   }, [isOpen])
 
   useEffect(() => {
     // function for handling hash change in browser, toggling modal open
-    const handleOnHashChange = () => setOpen(undefined)
+    const handleOnHashChange = () => setOpen(convertHistoryState(urlMatches(modalId)))
 
     // event listener for hashchange event
     window.addEventListener('hashchange', handleOnHashChange);
