@@ -17,7 +17,10 @@ export default function ModalAbout(props: {
 
       <section>
         <p>
-          This is a web-only preview of the calendar located here. The calendar can also be shown by mobile phone calendar.
+          This is a web-only preview of the calendar located {link(
+            "here",
+            "https://www.clojurians-zulip.org/feeds/events.ics"
+          )}. The calendar can also be shown by mobile phone calendar.
         </p>
         <h3>Adding new events</h3>
         <p>
@@ -33,7 +36,7 @@ export default function ModalAbout(props: {
         <p>
           Web UI ({link(
             "Source code",
-            "https://github.com/Invertisment/cljcalendar"
+            "https://gitlab.com/invertisment/cljcalendar/"
           )}): Martynas Maciulevičius
         </p>
         <p>
