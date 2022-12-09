@@ -5,6 +5,8 @@ function urlMatches(modalId: string) {
   return results !== null && results.length > 0
 }
 
+const prevUrlAttrName = "cljcalendarPrevUrl"
+
 // Source: https://stackoverflow.com/a/60879586
 export default function useHashRouteToggle<T>(
   modalId: string,
@@ -20,10 +22,10 @@ export default function useHashRouteToggle<T>(
       return
     }
     if (isOpen) {
-      history.pushState({ prevUrl: currentHref }, '', currentHref + "#" + modalId)
+      history.pushState({ [prevUrlAttrName]: currentHref }, '', currentHref + "#" + modalId)
     } else {
       // https://stackoverflow.com/a/56184390
-      if (history.state?.prevUrl) {
+      if (history.state && history.state[prevUrlAttrName]) {
         history.back()
       }
     }
