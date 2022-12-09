@@ -18,6 +18,11 @@ export default function useHashRouteToggle<T>(
   useEffect(() => {
     const currentHref = window.location.href
     const match = urlMatches(modalId)
+    if (isOpen && match && (!history.state || !history.state[prevUrlAttrName])) {
+      // user navigated from other site directly to a nested route with modal info
+      const cleanHref = currentHref.replace(new RegExp("#" + modalId), "")
+      history.replaceState({}, '', cleanHref)
+    }
     if (isOpen === match) {
       return
     }
